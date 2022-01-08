@@ -21,7 +21,7 @@ function FeedbackList( {feedback, handleDelete} ) {
 
 FeedbackList.propTypes = {
   feedback: PropTypes.array.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object
 }
 
 export default FeedbackList
