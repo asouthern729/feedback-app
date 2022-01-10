@@ -24,6 +24,20 @@ export const FeedbackProvider = ({children}) => {
     }
   ])
 
+  /* State */
+  const [feedbackEdit, setFeedbackEdit] = useState({
+    item: {},
+    edit: false
+  })
+
+  /* Set item to be updated */
+  const editFeedback = (item) => {
+    setFeedbackEdit({
+      item,
+      edit: true
+    })
+  }
+
   /* Delete feedback function */
   const deleteFeedback = (id) => {
     if(window.confirm('Are you sure you want to delete?')) {
@@ -42,7 +56,8 @@ export const FeedbackProvider = ({children}) => {
   return <FeedbackContext.Provider value={{
     feedback,
     deleteFeedback,
-    addFeedback
+    addFeedback,
+    editFeedback
   }}>
     {children}
   </FeedbackContext.Provider>
