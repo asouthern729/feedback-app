@@ -25,10 +25,20 @@ export const FeedbackProvider = ({children}) => {
   }
 
   // Update feedback item
-  const updateFeedback = (id, updItem) => {
+  const updateFeedback = async (id, updItem) => {
+    const response = await fetch(`/feedback/${id}`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "Application/JSON"
+      },
+      body: JSON.stringify(updItem)
+    })
+
+    const data = await response.json()
+
     /* Loops through feedback array, checks to see if id is equal to the id that 
-    is being passed in.  If so, updates item with contents of updItem */
-    setFeedback(feedback.map((item) => item.id === id ? { ...item, ...updItem } : item))
+    is being passed in.  If so, updates item with contents of data */
+    setFeedback(feedback.map((item) => item.id === id ? { ...item, ...data } : item))
   }
 
   // Set item to be updated
@@ -40,8 +50,10 @@ export const FeedbackProvider = ({children}) => {
   }
 
   // Delete feedback function
-  const deleteFeedback = (id) => {
+  const deleteFeedback = async (id) => {
     if(window.confirm('Are you sure you want to delete?')) {
+      await fetch(`/feedback/${id}`, { method: 'DELETE' })
+
       setFeedback(feedback.filter((item) => item.id !== id))
     }
   }
