@@ -7,6 +7,7 @@ import FeedbackStats from './components/FeedbackStats'
 import FeedbackForm from './components/FeedbackForm'
 import AboutIconLink from './components/AboutIconLink'
 import AboutPage from './pages/AboutPage'
+import { FeedbackProvider } from './context/FeedbackContext'
 
 import FeedbackData from './data/FeedbackData'
 
@@ -30,27 +31,29 @@ function App() {
   /* react-router-dom version 6 requires <Route> be wrapped in <Routes> parent
   component prop replaced with element */
   return (
-    <Router>
-      <Header />
-      <div className="container">
-        <Routes>
-          <Route exact path="/" element={
-            <>
-              <FeedbackForm handleAdd={addFeedback} />
-              <FeedbackStats feedback={feedback} />
-              <FeedbackList 
-              feedback={feedback}
-              handleDelete={deleteFeedback} />
-            </>
-          }>
-          </Route>
+    <FeedbackProvider>
+      <Router>
+        <Header />
+        <div className="container">
+          <Routes>
+            <Route exact path="/" element={
+              <>
+                <FeedbackForm handleAdd={addFeedback} />
+                <FeedbackStats feedback={feedback} />
+                <FeedbackList 
+                feedback={feedback}
+                handleDelete={deleteFeedback} />
+              </>
+            }>
+            </Route>
 
-          <Route exact path="/about" element={<AboutPage />} />
-        </Routes>
-        
-        <AboutIconLink />
-      </div>
-    </Router>
+            <Route exact path="/about" element={<AboutPage />} />
+          </Routes>
+          
+          <AboutIconLink />
+        </div>
+      </Router>
+    </FeedbackProvider>
   )
 }
 
