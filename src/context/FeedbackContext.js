@@ -5,7 +5,7 @@ const FeedbackContext = createContext()
 
 export const FeedbackProvider = ({children}) => {
 
-  /* State */
+  // State
   const [feedback, setFeedback] = useState([
     {
       id: 1,
@@ -24,13 +24,20 @@ export const FeedbackProvider = ({children}) => {
     }
   ])
 
-  /* State */
+  // State
   const [feedbackEdit, setFeedbackEdit] = useState({
     item: {},
     edit: false
   })
 
-  /* Set item to be updated */
+  // Update feedback item
+  const updateFeedback = (id, updItem) => {
+    /* Loops through feedback array, checks to see if id is equal to the id that 
+    is being passed in.  If so, updates item with contents of updItem */
+    setFeedback(feedback.map((item) => item.id === id ? { ...item, ...updItem } : item))
+  }
+
+  // Set item to be updated
   const editFeedback = (item) => {
     setFeedbackEdit({
       item,
@@ -38,14 +45,14 @@ export const FeedbackProvider = ({children}) => {
     })
   }
 
-  /* Delete feedback function */
+  // Delete feedback function
   const deleteFeedback = (id) => {
     if(window.confirm('Are you sure you want to delete?')) {
       setFeedback(feedback.filter((item) => item.id !== id))
     }
   }
 
-  /* Add feedback function */
+  // Add feedback function
   const addFeedback = (newFeedback) => {
     newFeedback.id = uuidv4()
     /* Spread operator adds existing feedback to global feedback state,
@@ -54,11 +61,12 @@ export const FeedbackProvider = ({children}) => {
   }
 
   return <FeedbackContext.Provider value={{
-    feedback,
-    deleteFeedback,
-    addFeedback,
-    editFeedback, // function
-    feedbackEdit // state
+    feedback, // state
+    feedbackEdit,
+    deleteFeedback, // function
+    addFeedback, 
+    editFeedback, 
+    updateFeedback
   }}>
     {children}
   </FeedbackContext.Provider>
