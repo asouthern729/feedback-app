@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
 const FeedbackContext = createContext()
 
@@ -48,11 +47,20 @@ export const FeedbackProvider = ({children}) => {
   }
 
   // Add feedback function
-  const addFeedback = (newFeedback) => {
-    newFeedback.id = uuidv4()
+  const addFeedback = async (newFeedback) => {
+    const response = await fetch('/feedback', {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/JSON"
+      },
+      body: JSON.stringify(newFeedback)
+    })
+
+    const data = await response.json()
+
     /* Spread operator adds existing feedback to global feedback state,
-    newFeedback object is appended to existing feedback */
-    setFeedback([newFeedback, ...feedback])
+    data object is appended to existing feedback */
+    setFeedback([data, ...feedback])
   }
 
   return <FeedbackContext.Provider value={{
